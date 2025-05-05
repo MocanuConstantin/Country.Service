@@ -1,5 +1,5 @@
 ﻿using Country.Application.Services;
-using Country.Domain.Interfaces.Services;
+using Country.Application.Interfaces.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Country.Application.Extensions;

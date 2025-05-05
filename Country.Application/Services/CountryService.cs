@@ -1,7 +1,9 @@
 ﻿
+using Country.Application.Models;
 using Country.Domain.Entities;
 using Country.Domain.Interfaces.Repositories;
-using Country.Domain.Interfaces.Services;
+using Country.Application.Interfaces.Services;
+using Mapster;
 using Microsoft.Extensions.Logging;
 
 namespace Country.Application.Services;
@@ -17,24 +19,26 @@ public class CountryService : ICountryService
         this.logger = logger;
     }
 
-    public async Task<List<CountryEntity>> GetAllAsync(CancellationToken cancellationToken = default)
+    public async Task<List<CountryDto>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         try
         {
-            return await repository.GetAllAsync(cancellationToken);
+            var entities = await repository.GetAllAsync(cancellationToken);
+            return entities.Adapt<List<CountryDto>>();
         }
         catch (Exception ex)
         {
             logger.LogError(ex, "Failed to get all CountryEntities");
-            return new List<CountryEntity>();
+            return new List<CountryDto>();
         }
     }
 
-    public async Task<CountryEntity?> GetByIdAsync(int id, CancellationToken cancellationToken)
+    public async Task<CountryDto?> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
         try
         {
-            return await repository.GetCountryByIdAsync(id, cancellationToken);
+            var entity = await repository.GetCountryByIdAsync(id, cancellationToken);
+            return entity?.Adapt<CountryDto>();
         }
         catch (Exception ex)
         {
@@ -43,11 +47,12 @@ public class CountryService : ICountryService
         }
     }
 
-    public async Task<CountryEntity> CreateAsync(CountryEntity country, CancellationToken cancellationToken = default)
+    public async Task<CountryDto> CreateAsync(CountryEntity country, CancellationToken cancellationToken = default)
     {
         try
         {
-            return await repository.CreateCountryAsync(country, cancellationToken);
+            var created = await repository.CreateCountryAsync(country, cancellationToken);
+            return created.Adapt<CountryDto>();
         }
         catch (Exception ex)
         {
@@ -56,11 +61,12 @@ public class CountryService : ICountryService
         }
     }
 
-    public async Task<CountryEntity?> UpdateAsync(int id, CountryEntity updatedCountry, CancellationToken cancellationToken = default)
+    public async Task<CountryDto?> UpdateAsync(int id, CountryEntity updatedCountry, CancellationToken cancellationToken = default)
     {
         try
         {
-            return await repository.UpdateCountryAsync(id, updatedCountry, cancellationToken);
+            var updated = await repository.UpdateCountryAsync(id, updatedCountry, cancellationToken);
+            return updated?.Adapt<CountryDto>();
         }
         catch (Exception ex)
         {

@@ -1,5 +1,3 @@
-using Country.Domain.Interfaces.Services;
-using Country.Application.Services;
 using Country.Infrastructure.Extensions;
 using Country.Application.Extensions;
 using Country.Api.Extensions;

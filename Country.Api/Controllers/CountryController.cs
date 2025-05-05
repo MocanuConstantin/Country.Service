@@ -1,4 +1,4 @@
-﻿using Country.Domain.Interfaces.Services;
+﻿using Country.Application.Interfaces.Services;
 using Country.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Country.Api.Models.Responses;

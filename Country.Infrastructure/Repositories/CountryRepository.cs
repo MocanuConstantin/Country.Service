@@ -1,5 +1,7 @@
-﻿using Country.Domain.Entities;
+﻿using Country.Application.Models;
+using Country.Domain.Entities;
 using Country.Domain.Interfaces.Repositories;
+using Mapster;
 using Microsoft.EntityFrameworkCore;
 
 namespace Country.Infrastructure.Repositories;
@@ -13,28 +15,30 @@ public class CountryRepository : ICountryRepository
         this.context = context;
     }
 
-    public async Task<List<CountryEntity>> GetAllAsync(CancellationToken cancellationToken)
+    public async Task<List<CountryDto>> GetAllAsync(CancellationToken cancellationToken)
     {
         return await context.Countries
             .AsNoTracking()
+            .ProjectToType<CountryDto>()
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<CountryEntity?> GetCountryByIdAsync(int id, CancellationToken cancellationToken)
+    public async Task<CountryDto?> GetCountryByIdAsync(int id, CancellationToken cancellationToken)
     {
         return await context.Countries
             .AsNoTracking()
+            .ProjectToType<CountryDto>()
             .FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
     }
 
-    public async Task<CountryEntity> CreateCountryAsync(CountryEntity country, CancellationToken cancellationToken)
+    public async Task<CountryDto> CreateCountryAsync(CountryEntity country, CancellationToken cancellationToken)
     {
         context.Countries.Add(country);
         await context.SaveChangesAsync(cancellationToken);
-        return country;
+        return country.Adapt<CountryDto>();
     }
 
-    public async Task<CountryEntity?> UpdateCountryAsync(int id, CountryEntity updatedCountry, CancellationToken cancellationToken)
+    public async Task<CountryDto?> UpdateCountryAsync(int id, CountryEntity updatedCountry, CancellationToken cancellationToken)
     {
         var country = await context.Countries.FindAsync(new object[] { id }, cancellationToken);
         if (country == null) return null;
@@ -43,7 +47,7 @@ public class CountryRepository : ICountryRepository
         country.Alpha_2_Code = updatedCountry.Alpha_2_Code;
 
         await context.SaveChangesAsync(cancellationToken);
-        return country;
+        return country.Adapt<CountryDto>();
     }
 
     public async Task<bool> DeleteCountryAsync(int id, CancellationToken cancellationToken)
