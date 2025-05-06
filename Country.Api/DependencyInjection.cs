@@ -1,18 +1,13 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using Country.Api.Mapping;
+using Microsoft.OpenApi.Models;
 
-namespace Country.Api.Extensions;
+namespace Country.Api;
 
-
-/// <summary>
-/// Provides extension methods for registering API-layer services.
-/// </summary>
 public static class DependencyInjection
 {
-    /// <summary>
-    /// Adds API-related services like controllers and Swagger generation.
-    /// </summary>
     public static IServiceCollection AddApiServices(this IServiceCollection services)
     {
+        services.AddMappings();
         services.AddControllers();
 
         services.AddEndpointsApiExplorer();
@@ -30,9 +25,6 @@ public static class DependencyInjection
         return services;
     }
 
-    /// <summary>
-    /// Configures Swagger middleware in the request pipeline.
-    /// </summary>
     public static IApplicationBuilder UseApiSwagger(this IApplicationBuilder app)
     {
         app.UseSwagger();

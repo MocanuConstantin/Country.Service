@@ -6,7 +6,14 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="RabbitMq\**" />
+    <EmbeddedResource Remove="RabbitMq\**" />
+    <None Remove="RabbitMq\**" />
+  </ItemGroup>
+
 	<ItemGroup>
+		<PackageReference Include="Mapster" Version="7.4.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.4" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.4">
 			<PrivateAssets>all</PrivateAssets>
@@ -20,15 +27,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Persistence\Migrations\" />
-	  <Folder Include="RabbitMq\Consumers\" />
-	  <Folder Include="RabbitMq\Factories\" />
-	  <Folder Include="RabbitMq\Options\" />
-	  <Folder Include="RabbitMq\Serializers\" />
+	  <ProjectReference Include="..\Country.Application\Country.Application.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Country.Application\Country.Application.csproj" />
+	  <Folder Include="Persistence\Migrations\" />
 	</ItemGroup>
 	
 </Project>

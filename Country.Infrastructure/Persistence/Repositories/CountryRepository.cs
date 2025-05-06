@@ -17,28 +17,28 @@ public class CountryRepository : ICountryRepository
 
     public async Task<List<CountryDto>> GetAllAsync(CancellationToken cancellationToken)
     {
-        return await context.Countries
-            .AsNoTracking()
-            .ProjectToType<CountryDto>()
-            .ToListAsync(cancellationToken);
+        var dbItems = await context.Countries
+                                    .AsNoTracking()
+                                    .ToListAsync(cancellationToken);
+        return dbItems.Adapt<List<CountryDto>>();
     }
 
     public async Task<CountryDto?> GetCountryByIdAsync(int id, CancellationToken cancellationToken)
     {
-        return await context.Countries
-            .AsNoTracking()
-            .ProjectToType<CountryDto>()
-            .FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
+        var db = await context.Countries.FindAsync(new object[] { id }, cancellationToken);
+        return db?.Adapt<CountryDto>();
     }
 
-    public async Task<CountryDto> CreateCountryAsync(CountryEntity country, CancellationToken cancellationToken)
+    public async Task<CountryDto> CreateCountryAsync(CountryDto country, CancellationToken cancellationToken)
     {
-        context.Countries.Add(country);
+        var dbModel = country.Adapt<CountryEntity>();
+        context.Countries.Add(dbModel);
         await context.SaveChangesAsync(cancellationToken);
-        return country.Adapt<CountryDto>();
+
+        return dbModel.Adapt<CountryDto>();
     }
 
-    public async Task<CountryDto?> UpdateCountryAsync(int id, CountryEntity updatedCountry, CancellationToken cancellationToken)
+    public async Task<CountryDto?> UpdateCountryAsync(int id, CountryDto updatedCountry, CancellationToken cancellationToken)
     {
         var country = await context.Countries.FindAsync(new object[] { id }, cancellationToken);
         if (country == null) return null;

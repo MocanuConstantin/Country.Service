@@ -1,6 +1,4 @@
-﻿
-using Country.Application.Models;
-using Country.Domain.Entities;
+﻿using Country.Application.Models;
 using Country.Application.Interfaces.Repositories;
 using Country.Application.Interfaces.Services;
 using Mapster;
@@ -24,7 +22,7 @@ public class CountryService : ICountryService
         try
         {
             var entities = await repository.GetAllAsync(cancellationToken);
-            return entities.Adapt<List<CountryDto>>();
+            return entities;
         }
         catch (Exception ex)
         {
@@ -38,7 +36,7 @@ public class CountryService : ICountryService
         try
         {
             var entity = await repository.GetCountryByIdAsync(id, cancellationToken);
-            return entity?.Adapt<CountryDto>();
+            return entity;
         }
         catch (Exception ex)
         {
@@ -51,8 +49,8 @@ public class CountryService : ICountryService
     {
         try
         {
-            var created = await repository.CreateCountryAsync(country, cancellationToken);
-            return created.Adapt<CountryDto>();
+            var createdCountry = await repository.CreateCountryAsync(country, cancellationToken);
+            return createdCountry.Adapt<CountryDto>();
         }
         catch (Exception ex)
         {

@@ -1,6 +1,6 @@
-using Country.Infrastructure.Persistence.Extensions;
-using Country.Application.Extensions;
-using Country.Api.Extensions;
+using Country.Infrastructure.Persistence;
+using Country.Api;
+using Country.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 

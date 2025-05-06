@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Country.Api.Models.Responses;
 using Mapster;
 using Country.Api.Models.Requests;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using Country.Application.Models;
 
 namespace Country.Api.Controllers;
 
@@ -21,24 +21,26 @@ public class CountryController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<CountryResponse>>> GetAllCountries(CancellationToken cancellationToken = default)
     {
-        var result = await countryService.GetAllAsync(cancellationToken);
+        var dtos = await countryService.GetAllAsync(cancellationToken);
 
-        var countryResponse = result.Adapt<List<CountryResponse>>();
+        var responses = dtos.Adapt<List<CountryResponse>>();
 
-        return Ok(result);
+        return Ok(responses);
     }
 
     [HttpGet("{id:int}")]
     public async Task<ActionResult<CountryResponse>> GetCountryById(int id, CancellationToken cancellationToken = default)
     {
-        var result = await countryService.GetByIdAsync(id, cancellationToken);
-        if (result == null)
+        var dto = await countryService.GetByIdAsync(id, cancellationToken);
+      
+        if (dto == null)
         {
             return NotFound();
         }
-        var countryResponse = result.Adapt<CountryResponse>();
 
-        return Ok(result);
+        var response = dto.Adapt<CountryResponse>();
+
+        return Ok(response);
     }
 
     [HttpPost]
@@ -48,11 +50,13 @@ public class CountryController : ControllerBase
         {
             return BadRequest(ModelState);
         }
-        var request = req.Adapt<CountryEntity>();
+        var dto = req.Adapt<CountryDto>();
 
-        var createdCountry = await countryService.CreateAsync(request, cancellationToken);
+        var createdDto = await countryService.CreateAsync(dto, cancellationToken);
 
-        return CreatedAtAction(nameof(GetCountryById), new { id = createdCountry.Id }, createdCountry);
+        var response = createdDto.Adapt<CountryResponse>();
+
+        return CreatedAtAction(nameof(GetCountryById), new { id = response.Id }, response);
     }
 
     [HttpPut("{id:int}")]
@@ -63,18 +67,18 @@ public class CountryController : ControllerBase
             return BadRequest(ModelState);
         }
 
-        var request = req.Adapt<CountryEntity>();
-        request.Id = id;
+        var dto = req.Adapt<CountryDto>();
+        dto.Id = id;
 
-        var result = await countryService.UpdateAsync(id, request, cancellationToken);
+        var updatedDto = await countryService.UpdateAsync(id, dto, cancellationToken);
 
-        if (result == null)
+        if (updatedDto == null)
         {
             return NotFound();
         }
-        var resp = result.Adapt<CountryResponse>();
+        var response = updatedDto.Adapt<CountryResponse>();
 
-        return Ok(resp);
+        return Ok(response);
     }
 
     [HttpDelete("{id:int}")]
