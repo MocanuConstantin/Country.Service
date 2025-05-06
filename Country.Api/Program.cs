@@ -1,4 +1,4 @@
-using Country.Infrastructure.Extensions;
+using Country.Infrastructure.Persistence.Extensions;
 using Country.Application.Extensions;
 using Country.Api.Extensions;
 

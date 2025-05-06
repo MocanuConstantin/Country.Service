@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Country.Infrastructure.EntityConfigurations;
+namespace Country.Infrastructure.Persistence.EntityConfigurations;
 
 internal sealed class CountryEntityConfiguration : IEntityTypeConfiguration<CountryEntity>
 {

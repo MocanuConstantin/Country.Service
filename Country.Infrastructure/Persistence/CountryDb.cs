@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Country.Domain.Entities;
+﻿using Country.Infrastructure.Persistence.Entities;
+using Microsoft.EntityFrameworkCore;
 
-namespace Country.Infrastructure;
+namespace Country.Infrastructure.Persistence;
 
 public class CountryDb : DbContext
 {

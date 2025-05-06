@@ -1,7 +1,7 @@
 ﻿
 using Country.Application.Models;
 using Country.Domain.Entities;
-using Country.Domain.Interfaces.Repositories;
+using Country.Application.Interfaces.Repositories;
 using Country.Application.Interfaces.Services;
 using Mapster;
 using Microsoft.Extensions.Logging;
@@ -47,7 +47,7 @@ public class CountryService : ICountryService
         }
     }
 
-    public async Task<CountryDto> CreateAsync(CountryEntity country, CancellationToken cancellationToken = default)
+    public async Task<CountryDto> CreateAsync(CountryDto country, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -61,7 +61,7 @@ public class CountryService : ICountryService
         }
     }
 
-    public async Task<CountryDto?> UpdateAsync(int id, CountryEntity updatedCountry, CancellationToken cancellationToken = default)
+    public async Task<CountryDto?> UpdateAsync(int id, CountryDto updatedCountry, CancellationToken cancellationToken = default)
     {
         try
         {

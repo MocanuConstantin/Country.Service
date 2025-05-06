@@ -20,7 +20,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Migrations\" />
+	  <Folder Include="Persistence\Migrations\" />
+	  <Folder Include="RabbitMq\Consumers\" />
+	  <Folder Include="RabbitMq\Factories\" />
+	  <Folder Include="RabbitMq\Options\" />
+	  <Folder Include="RabbitMq\Serializers\" />
 	</ItemGroup>
 
 	<ItemGroup>

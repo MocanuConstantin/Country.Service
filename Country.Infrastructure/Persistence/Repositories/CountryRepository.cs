@@ -1,10 +1,10 @@
 ﻿using Country.Application.Models;
-using Country.Domain.Entities;
-using Country.Domain.Interfaces.Repositories;
+using Country.Application.Interfaces.Repositories;
+using Country.Infrastructure.Persistence.Entities;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 
-namespace Country.Infrastructure.Repositories;
+namespace Country.Infrastructure.Persistence.Repositories;
 
 public class CountryRepository : ICountryRepository
 {
@@ -44,7 +44,7 @@ public class CountryRepository : ICountryRepository
         if (country == null) return null;
 
         country.Name = updatedCountry.Name;
-        country.Alpha_2_Code = updatedCountry.Alpha_2_Code;
+        country.Alpha2Code = updatedCountry.Alpha2Code;
 
         await context.SaveChangesAsync(cancellationToken);
         return country.Adapt<CountryDto>();

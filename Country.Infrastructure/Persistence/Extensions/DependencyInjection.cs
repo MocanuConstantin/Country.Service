@@ -1,19 +1,13 @@
-﻿using Country.Domain.Interfaces.Repositories;
-using Country.Infrastructure.Repositories;
+﻿using Country.Application.Interfaces.Repositories;
+using Country.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Country.Infrastructure.Extensions;
+namespace Country.Infrastructure.Persistence.Extensions;
 
-/// <summary>
-/// Extension methods for configuring infrastructure services.
-/// </summary>
-public static class DependencyInjectionExtensions
+public static class DependencyInjection
 {
-    /// <summary>
-    /// Adds infrastructure-layer services, such as DbContext and repositories.
-    /// </summary>
     public static IServiceCollection AddInfrastructure(
         this IServiceCollection services,
         IConfiguration configuration,

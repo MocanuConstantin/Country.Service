@@ -6,7 +6,7 @@ namespace Country.Api.Extensions;
 /// <summary>
 /// Provides extension methods for registering API-layer services.
 /// </summary>
-public static class DependencyInjectionExtensions
+public static class DependencyInjection
 {
     /// <summary>
     /// Adds API-related services like controllers and Swagger generation.
