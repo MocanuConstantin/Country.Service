@@ -15,6 +15,7 @@ public static class DependencyInjection
         string connectionStringName = "CountryDatabase")
     {
         services.AddMappings();
+
         services.AddDbContext<CountryDb>(options =>
             options.UseSqlServer(configuration.GetConnectionString(connectionStringName)));
 

@@ -23,9 +23,9 @@ public class CountryController : ControllerBase
     {
         var dtos = await countryService.GetAllAsync(cancellationToken);
 
-        var responses = dtos.Adapt<List<CountryResponse>>();
+        var response = dtos.Adapt<List<CountryResponse>>();
 
-        return Ok(responses);
+        return Ok(response);
     }
 
     [HttpGet("{id:int}")]
@@ -44,13 +44,13 @@ public class CountryController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateCountry([FromBody] CountryRequest req, CancellationToken cancellationToken)
+    public async Task<IActionResult> CreateCountry([FromBody] CountryRequest request, CancellationToken cancellationToken)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        var dto = req.Adapt<CountryDto>();
+        var dto = request.Adapt<CountryDto>();
 
         var createdDto = await countryService.CreateAsync(dto, cancellationToken);
 
@@ -60,14 +60,14 @@ public class CountryController : ControllerBase
     }
 
     [HttpPut("{id:int}")]
-    public async Task<IActionResult> UpdateCountry(int id, [FromBody] CountryRequest req, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> UpdateCountry(int id, [FromBody] CountryRequest request, CancellationToken cancellationToken = default)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
 
-        var dto = req.Adapt<CountryDto>();
+        var dto = request.Adapt<CountryDto>();
         dto.Id = id;
 
         var updatedDto = await countryService.UpdateAsync(id, dto, cancellationToken);

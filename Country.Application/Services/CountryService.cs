@@ -21,8 +21,8 @@ public class CountryService : ICountryService
     {
         try
         {
-            var entities = await repository.GetAllAsync(cancellationToken);
-            return entities;
+            var dtos = await repository.GetAllAsync(cancellationToken);
+            return dtos;
         }
         catch (Exception ex)
         {
@@ -35,8 +35,8 @@ public class CountryService : ICountryService
     {
         try
         {
-            var entity = await repository.GetCountryByIdAsync(id, cancellationToken);
-            return entity;
+            var dto = await repository.GetCountryByIdAsync(id, cancellationToken);
+            return dto;
         }
         catch (Exception ex)
         {
@@ -49,8 +49,8 @@ public class CountryService : ICountryService
     {
         try
         {
-            var createdCountry = await repository.CreateCountryAsync(country, cancellationToken);
-            return createdCountry.Adapt<CountryDto>();
+            var createdDto = await repository.CreateCountryAsync(country, cancellationToken);
+            return createdDto.Adapt<CountryDto>();
         }
         catch (Exception ex)
         {
@@ -63,8 +63,8 @@ public class CountryService : ICountryService
     {
         try
         {
-            var updated = await repository.UpdateCountryAsync(id, updatedCountry, cancellationToken);
-            return updated?.Adapt<CountryDto>();
+            var dto = await repository.UpdateCountryAsync(id, updatedCountry, cancellationToken);
+            return dto;
         }
         catch (Exception ex)
         {

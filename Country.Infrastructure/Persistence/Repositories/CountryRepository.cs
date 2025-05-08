@@ -17,45 +17,46 @@ public class CountryRepository : ICountryRepository
 
     public async Task<List<CountryDto>> GetAllAsync(CancellationToken cancellationToken)
     {
-        var dbItems = await context.Countries
+        var entities = await context.Countries
                                     .AsNoTracking()
                                     .ToListAsync(cancellationToken);
-        return dbItems.Adapt<List<CountryDto>>();
+        return entities.Adapt<List<CountryDto>>();
     }
 
     public async Task<CountryDto?> GetCountryByIdAsync(int id, CancellationToken cancellationToken)
     {
-        var db = await context.Countries.FindAsync(new object[] { id }, cancellationToken);
-        return db?.Adapt<CountryDto>();
+        var entity = await context.Countries.FindAsync(new object[] { id }, cancellationToken);
+        return entity?.Adapt<CountryDto>();
     }
 
     public async Task<CountryDto> CreateCountryAsync(CountryDto country, CancellationToken cancellationToken)
     {
-        var dbModel = country.Adapt<CountryEntity>();
-        context.Countries.Add(dbModel);
-        await context.SaveChangesAsync(cancellationToken);
+        var entity = country.Adapt<CountryEntity>();
+        context.Countries.Add(entity);
 
-        return dbModel.Adapt<CountryDto>();
+        await context.SaveChangesAsync(cancellationToken);
+        return entity.Adapt<CountryDto>();
     }
 
     public async Task<CountryDto?> UpdateCountryAsync(int id, CountryDto updatedCountry, CancellationToken cancellationToken)
     {
-        var country = await context.Countries.FindAsync(new object[] { id }, cancellationToken);
-        if (country == null) return null;
+        var entity = await context.Countries.FindAsync(new object[] { id }, cancellationToken);
+        if (entity == null) return null;
 
-        country.Name = updatedCountry.Name;
-        country.Alpha2Code = updatedCountry.Alpha2Code;
+        //country.Name = updatedCountry.Name;
+        //country.Alpha2Code = updatedCountry.Alpha2Code;
+        updatedCountry.Adapt(entity);
 
         await context.SaveChangesAsync(cancellationToken);
-        return country.Adapt<CountryDto>();
+        return entity.Adapt<CountryDto>();
     }
 
     public async Task<bool> DeleteCountryAsync(int id, CancellationToken cancellationToken)
     {
-        var country = await context.Countries.FindAsync(new object[] { id }, cancellationToken);
-        if (country == null) return false;
+        var entity = await context.Countries.FindAsync(new object[] { id }, cancellationToken);
+        if (entity == null) return false;
 
-        context.Countries.Remove(country);
+        context.Countries.Remove(entity);
         await context.SaveChangesAsync(cancellationToken);
         return true;
     }
